@@ -3,7 +3,7 @@ require "socket"
 class Server
 	
 	def self.start(host = '127.0.0.1', port = 3001)
-		
+
 		_server = TCPServer.open(host,port)
 		loop do
 			@socket = _server.accept
@@ -23,7 +23,7 @@ class Server
 		
 		if _request = @socket.gets
 			_responserequest = _request.split(" ").map{|item| item.strip }
-			
+
 			return {
 				"command" => _responserequest[0],
 				"value" => self.process_command(_responserequest)
@@ -77,6 +77,8 @@ class Server
 			_score = request[2]
 			_value = request[3]
 			self.zadd(_key,_score.to_i,_value)
+		when "zcard"
+			self.zcard(_key)
 		when "quit"
 			self.quit
 		else
@@ -142,27 +144,21 @@ class Server
 
 	def self.zadd(key,score,value)
 		if @data[key] == nil
-			@data[key] = [[score],[[value]]]
+			@data[key] = [[score,value]]
 			return 1
 		else
-			index_at = @data[key][0].bsearch_index {|index_score| index_score >= score}
+			index_at = @data[key].bsearch_index {|index_score| index_score[0] >= score}
 			if index_at == nil
-				@data[key][0].push(score)
-				@data[key][1].push([value])
-			elsif @data[key][0][index_at] == score
-				@data[key][1][index_at].push(value)
+				@data[key].push([score,value])
 			else
-				@data[key][0].insert(index_at,score)
-				@data[key][1].insert(index_at,[value])
+				@data[key].insert(index_at,[score,value])
 			end
 		end
 	end
 
-	def self.dis(key)
-		return @data[key].class
+	def self.zcard(key)
+		return @data[key].size
 	end
-	
-
 
 	def self.quit
 		return false
