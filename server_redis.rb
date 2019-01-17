@@ -3,7 +3,7 @@ require "socket"
 class Server
 	
 	def self.start(host = '127.0.0.1', port = 3001)
-	
+		
 		_server = TCPServer.open(host,port)
 		loop do
 			@socket = _server.accept
@@ -22,22 +22,22 @@ class Server
 	def self.get_request
 		
 		if _request = @socket.gets
-    	_responserequest = _request.split(" ").map{|item| item.strip }
-      
-      return {
-      	"command" => _responserequest[0],
-      	"value" => self.process_command(_responserequest)
-      }
+			_responserequest = _request.split(" ").map{|item| item.strip }
+			
+			return {
+				"command" => _responserequest[0],
+				"value" => self.process_command(_responserequest)
+			}
 
-  	end
+		end
 
 	end
 
 	def self.process_command(request)
 
 		_command = request[0]
-    request[1] and _command != "quit" ? _key = request[1] : (return self.argument_error(_command))
-    case _command
+		request[1] and _command != "quit" ? _key = request[1] : (return self.argument_error(_command))
+		case _command
 		when "set"
 			_value = request[2]
 			self.set(_key,_value)
@@ -64,24 +64,24 @@ class Server
 			_bitvalue = request[3]
 			return self.bitvalue_error if _bitvalue != (0 or 1)
 			self.setbit(_key,_offset.to_i,_bitvalue)
-    when "get"
-      self.get(_key)
-    when "getbit"
+		when "get"
+			self.get(_key)
+		when "getbit"
 			_offset = request[2]
 			self.getbit(_key,_offset.to_i)
-    when "ttl"
-    	self.ttl(_key)
-    when "persist"
-    	self.persist(_key)
-    when "zadd"
-    	_score = request[2]
-    	_value = request[3]
-    	self.zadd(_key,_score.to_i,_value)
-    when "quit"
-    	self.quit
-    else
-      return self.command_error(_command)
-    end
+		when "ttl"
+			self.ttl(_key)
+		when "persist"
+			self.persist(_key)
+		when "zadd"
+			_score = request[2]
+			_value = request[3]
+			self.zadd(_key,_score.to_i,_value)
+		when "quit"
+			self.quit
+		else
+			return self.command_error(_command)
+		end
 
 	end
 
@@ -105,17 +105,17 @@ class Server
 	end
 
 	def self.expire(key,expire_value,expire_time)
-  	@ttl_thread[key] = Thread.new{
-    	(expire_value+1).times do
-    		expire_value -= 1
-    		sleep(1) if expire_time == "ex"
-    		sleep(0.001) if expire_time == "mx"
-    		Thread.current[:output] = expire_value
-    	end
-    	@data.delete(key)
-    	@ttl_thread[key].terminate
-    }
-    return (true)
+		@ttl_thread[key] = Thread.new{
+			(expire_value+1).times do
+				expire_value -= 1
+				sleep(1) if expire_time == "ex"
+				sleep(0.001) if expire_time == "mx"
+				Thread.current[:output] = expire_value
+			end
+			@data.delete(key)
+			@ttl_thread[key].terminate
+		}
+		return (true)
 	end
 
 	def self.get(key)
@@ -161,7 +161,7 @@ class Server
 	def self.dis(key)
 		return @data[key].class
 	end
-					
+	
 
 
 	def self.quit
