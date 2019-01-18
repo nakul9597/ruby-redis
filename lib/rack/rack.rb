@@ -37,7 +37,6 @@ class MyRack
 
   def self.response(env)
     @response_val = App.call(env)
-    print(@response_val.class)
   end
 
   def self.display_response(command)

@@ -17,20 +17,20 @@ class Listener
   def self.string_route(command,args)
     case command
     when "set"
-      status_code = StringErrorController.set(args)
-      return status_code if status_code != 200
+      status = StringErrorController.set(args)
+      return status if status.code != 200
       StringController.set(*args)
     when "get"
-      status_code = StringErrorController.get(args)
-      return status_code if status_code != 200
+      status = StringErrorController.get(args)
+      return status if status.code != 200
       StringController.get(*args)
     when "setbit"
-      status_code = StringErrorController.setbit(args)
-      return status_code if status_code != 200
+      status = StringErrorController.setbit(args)
+      return status if status.code != 200
       StringController.setbit(*args)
     when "getbit"
-      status_code = StringErrorController.getbit(args)
-      return status_code if status_code != 200
+      status = StringErrorController.getbit(args)
+      return status if status.code != 200
       StringController.getbit(*args)
     when "setex"
       StringController.setex(*args)

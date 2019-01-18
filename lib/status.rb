@@ -7,8 +7,10 @@ class Status
     {
       200 => "Ok",
       202 => "(nil)",
-      400 => "(error) ERR wrong number of arguments for #{command} command \n If you want to know the syntax for all command type help",
-      404 => "CommandError: #{command} is not a valid command"
+      400 => "(error) ERR wrong number of arguments for '#{command}' command",
+      402 => "(error) ERR syntax error",
+      404 => "CommandError: '#{command}' is not a valid command",
+      420 => "(error) ERR value is not an integer or out of range"
     }
   end
 
