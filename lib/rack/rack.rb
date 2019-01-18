@@ -29,7 +29,7 @@ class MyRack
 
   def self.new_env_render(command,args)
     {
-      "command" => command,
+      "command" => command.downcase,
       "args" => args.split(" ").map(&:strip)
     }
   end

@@ -10,14 +10,6 @@ class StringErrorController
 		RedisError.argument_error(args,0)
 	end
 
-	def self.setex
-
-	end
-
-	def self.setmx
-
-	end
-
 	def self.setbit(args)
 		RedisError.argument_error(args,2)
 	end

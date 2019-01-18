@@ -14,4 +14,17 @@ class FunctionalityController
 		return (true)
 	end
 
+	def self.ttl(key)
+		return -2 unless $data.key?(key)
+		return $ttl_thread[key] ? $ttl_thread[key][:output] : -1
+	end
+
+	def self.persist(key)
+		if $ttl_thread[key] 
+			$ttl_thread[key][:output] = -1
+			$ttl_thread[key].terminate
+			return true
+		end
+		false
+	end
 end

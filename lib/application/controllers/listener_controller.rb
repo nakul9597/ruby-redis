@@ -19,21 +19,27 @@ class Listener
     when "set"
       status_code = StringErrorController.set(args)
       return status_code if status_code != 200
-      StringController.set(args)
+      StringController.set(*args)
     when "get"
       status_code = StringErrorController.get(args)
       return status_code if status_code != 200
-      StringController.get(args)
+      StringController.get(*args)
     when "setbit"
       status_code = StringErrorController.setbit(args)
       return status_code if status_code != 200
-      StringController.setbit(args)
+      StringController.setbit(*args)
     when "getbit"
       status_code = StringErrorController.getbit(args)
       return status_code if status_code != 200
-      StringController.getbit(args)
+      StringController.getbit(*args)
     when "setex"
-      StringController.setex(args)
+      StringController.setex(*args)
+    when "setmx"
+      StringController.setmx(*args)
+    when "setnx"
+      StringController.setnx(*args)
+    when "setxx"
+      StringController.setxx(*args)
     else
       ["invalid",404]
     end
@@ -42,7 +48,15 @@ class Listener
   def self.sortedset_route(command,args)
     case command
     when "zadd"
-      ["hello",100]
+      SortedSetController.zadd(*args)
+    when "zcard"
+      SortedSetController.zcard(*args)
+    when "zcount"
+      SortedSetController.zcount(*args)
+    when "zrange"
+      SortedSetController.zrange(*args)
+    when "zrank"
+      SortedSetController.zrank(*args)
     else
       ["invalid",404]
     end
@@ -53,6 +67,10 @@ class Listener
     when "save"
       DB_Model.db_save
       ["wabalaba",444]
+    when "ttl"
+      FunctionalityController.ttl(*args)
+    when "persist"
+      FunctionalityController.persist(*args)
     else
       ["invalid",404]
     end
