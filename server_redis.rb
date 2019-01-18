@@ -79,6 +79,17 @@ class Server
 			self.zadd(_key,_score.to_i,_value)
 		when "zcard"
 			self.zcard(_key)
+		when "zrank"
+			_value = request[2]
+			self.zrank(_key,_value)
+		when "zcount"
+			_min = request[2].to_i
+			_max = request[3].to_i < @data[_key].size ? request[3].to_i : data[_key].size
+			self.zcount(_key,_min,_max)
+		when "zrange"
+			_min = request[2].to_i
+			_max = request[3].to_i
+			self.zrange(_key,_min,_max)
 		when "quit"
 			self.quit
 		else
@@ -158,6 +169,22 @@ class Server
 
 	def self.zcard(key)
 		return @data[key].size
+	end
+
+	def self.zrank(key,value)
+		return @data[key].collect{|val| val[1]}.find_index(value)
+	end
+
+	def self.zcount(key,min,max)
+		return @data[key].collect{|val| val[0]}.count &(min..max).to_a.method(:include?)
+	end
+
+	def self.zrange(key,min,max)
+		temp = []
+		@data[key].each_with_index do |val,idx|
+			temp.push("#{idx+1}) #{val[1]}") if (min..max).to_a.include?(val[0])
+		end
+		return temp
 	end
 
 	def self.quit
