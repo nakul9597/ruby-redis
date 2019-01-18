@@ -1,5 +1,6 @@
 require_relative '../framework/router_framework'
 require_relative '../framework/app_runner'
+require_relative '../status'
 require 'socket'
 
 class MyRack
@@ -12,7 +13,7 @@ class MyRack
         env = self.request_process
         (@socket.close; break) if self.socket_close?(env)
         self.response(env);
-        display_response
+        display_response(env["command"])
       end
     end
 
@@ -35,14 +36,24 @@ class MyRack
   end
 
   def self.response(env)
-    @response_val,@status = App.call(env)
+    @response_val = App.call(env)
+    print(@response_val.class)
   end
 
-  def self.display_response
-    @socket.puts([@response_val,$data])
+  def self.display_response(command)
+    case @response_val.class.to_s
+    when "Status"
+      @socket.puts(Status.code_value(command)[@response_val.code])
+    when "Integer"
+      @socket.puts("(integer)"+@response_val.to_s)
+    else
+      @socket.puts(@response_val)
+    end
+    @socket.puts($data)
   end
 
   def self.socket_close?(response)
     response["command"] == "quit"
   end
+
 end

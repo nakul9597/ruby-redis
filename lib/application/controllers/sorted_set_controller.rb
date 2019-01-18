@@ -31,7 +31,6 @@ class SortedSetController
 		$data[key].each_with_index do |val,idx|
 			temp.push("#{idx+1}) #{val[1]}") if (min..max).to_a.include?(val[0])
 		end
-		print temp
 		return temp
 	end
 

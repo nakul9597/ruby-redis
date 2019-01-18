@@ -3,14 +3,14 @@ require_relative '../model/db_model'
 
 class Listener
 
-  def self.route_control(command_type,command,args,app)
+  def self.route_control(command_type,command,args)
     case command_type
     when "string"
-      app.response = self.string_route(command, args)
+      self.string_route(command, args)
     when "sorted_set"
-      app.response = self.sortedset_route(command, args)
+      self.sortedset_route(command, args)
     else 
-      app.response = self.funtionality_route(command, args)
+      self.funtionality_route(command, args)
     end
   end
 
@@ -41,7 +41,7 @@ class Listener
     when "setxx"
       StringController.setxx(*args)
     else
-      ["invalid",404]
+      404
     end
   end
 
@@ -58,7 +58,7 @@ class Listener
     when "zrank"
       SortedSetController.zrank(*args)
     else
-      ["invalid",404]
+      404
     end
   end
 
@@ -72,7 +72,7 @@ class Listener
     when "persist"
       FunctionalityController.persist(*args)
     else
-      ["invalid",404]
+      404
     end
   end
 

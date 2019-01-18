@@ -11,23 +11,8 @@ class App
   end
 
   def self.call(env)
-    app = Response.new
     command_type = Router.find(env)
-    Listener.route_control(command_type,env["command"],env["args"],app)
-    app.response
-  end
-
-end
-
-class Response
-  @@response = []
-
-  def response=(val)
-    @@response = val
-  end
-
-  def response
-    @@response
+    Listener.route_control(command_type,env["command"],env["args"])
   end
 
 end

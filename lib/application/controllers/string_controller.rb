@@ -1,4 +1,5 @@
 require_relative 'functionality_controller'
+require_relative '../../status'
 
 class StringController
 
@@ -9,11 +10,11 @@ class StringController
 		rescue StandardError => e
 			return e.to_s
 		end
-		return [200,"ok"]
+		return Status.new(200)
 	end
 
 	def self.get(key)
-		$data[key] ? $data[key] : 404
+		$data[key] ? $data[key] : Status.new(202)
 	end
 
 	def self.setex(key,expiretime,value)
