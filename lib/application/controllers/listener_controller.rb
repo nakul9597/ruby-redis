@@ -2,7 +2,7 @@ Dir["/home/nakulwarrier/workspace/ruby/ruby_redis/lib/application/controllers/*.
 require_relative '../model/db_model'
 
 class Listener
-  private
+  
   def self.route_control(command_type,command,args)
     case command_type
     when "string"

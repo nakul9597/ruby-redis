@@ -1,7 +1,7 @@
 require_relative '../../framework/error_framework'
 
 class StringErrorController
-	private
+	
 	def self.set(args)
 		status = RedisError.argument_check(args,1,4)
 		status = set_options(args[2..-1]) if status.code == 200

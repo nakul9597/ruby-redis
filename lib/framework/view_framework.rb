@@ -1,7 +1,7 @@
 require_relative '../application/source'
 require_relative '../application/html_converter'
 class FileRead
-  private
+  
   def self.html(file_name)
     begin
     IO.read("#{source}/application/#{file_name}.html")

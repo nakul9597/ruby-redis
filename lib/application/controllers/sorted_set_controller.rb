@@ -1,5 +1,5 @@
 class SortedSetController
-	private
+	
 	def self.zadd(key,score,value)
 		if $data[key] == nil
 			$data[key] = [[score,value]]

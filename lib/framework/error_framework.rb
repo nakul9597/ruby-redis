@@ -1,5 +1,5 @@
 class RedisError
-	private
+	
 	def self.argument_check(args,idx,optional=nil)
 		(0..idx).each {|i| return Status.new(400) if args[i] == nil}
 		idx = optional if optional != nil

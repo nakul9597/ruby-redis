@@ -1,5 +1,5 @@
 class FunctionalityController
-	private
+	
 	def self.expire(key,expire_value,expire_time)
 		$ttl_thread[key] = Thread.new{
 			(expire_value+1).times do
