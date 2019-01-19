@@ -31,10 +31,10 @@ class StringController
 		binary = $data[key]? $data[key].unpack("B*")[0] : ""
 		(0...((offset.to_i/8+1)*8)).each do |i|
 			binary[i] = "0" if binary[i] == nil
-			binary[i] = bitvalue if i == offset.to_i
+			orig_bit_val = binary[i]; binary[i] = bitvalue if i == offset.to_i
 		end
 		$data[key] = [binary].pack("B*")
-		return bitvalue == "0"? 0 : 1
+		return orig_bit_val.to_i
 	end
 
 	def self.setnx(key,value)

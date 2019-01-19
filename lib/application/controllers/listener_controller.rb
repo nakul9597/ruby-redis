@@ -33,32 +33,50 @@ class Listener
       return status if status.code != 200
       StringController.getbit(*args)
     when "setex"
+      status = StringErrorController.set_ttl(args)
+      return status if status.code != 200
       StringController.setex(*args)
     when "setmx"
+      status = StringErrorController.set_ttl(args)
+      return status if status.code != 200
       StringController.setmx(*args)
     when "setnx"
+      status = StringErrorController.set(args)
+      return status if status.code != 200
       StringController.setnx(*args)
     when "setxx"
+      status = StringErrorController.set(args)
+      return status if status.code != 200
       StringController.setxx(*args)
     else
-      404
+      Status.new(404)
     end
   end
 
   def self.sortedset_route(command,args)
     case command
     when "zadd"
+      status = SortedSetErrorController.zadd(args)
+      return status if status.code != 200
       SortedSetController.zadd(*args)
     when "zcard"
+      status = SortedSetErrorController.zcard(args)
+      return status if status.code != 200
       SortedSetController.zcard(*args)
     when "zcount"
+      status = SortedSetErrorController.zcount(args)
+      return status if status.code != 200
       SortedSetController.zcount(*args)
     when "zrange"
+      status = SortedSetErrorController.zrange(args)
+      return status if status.code != 200
       SortedSetController.zrange(*args)
     when "zrank"
+      status = SortedSetErrorController.zrank(args)
+      return status if status.code != 200
       SortedSetController.zrank(*args)
     else
-      404
+      Status.new(404)
     end
   end
 
@@ -72,7 +90,7 @@ class Listener
     when "persist"
       FunctionalityController.persist(*args)
     else
-      404
+      Status.new(404)
     end
   end
 
