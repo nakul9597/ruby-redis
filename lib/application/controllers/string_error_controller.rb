@@ -1,7 +1,7 @@
-require_relative 'error_controller'
+require_relative '../../framework/error_framework'
 
 class StringErrorController
-
+	private
 	def self.set(args)
 		status = RedisError.argument_check(args,1,4)
 		status = set_options(args[2..-1]) if status.code == 200
@@ -35,7 +35,6 @@ class StringErrorController
 
 	def self.set_options(options)
 		return Status.new(200) if options.empty?
-		print("hi")
 		if((options[0] == "ex" or options[0] == "mx") and options[1] != nil)
 			status = RedisError.integer_check(options[1])
 			if status.code == 200

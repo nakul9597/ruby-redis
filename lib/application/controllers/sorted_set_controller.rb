@@ -1,5 +1,5 @@
 class SortedSetController
-
+	private
 	def self.zadd(key,score,value)
 		if $data[key] == nil
 			$data[key] = [[score,value]]
@@ -26,7 +26,7 @@ class SortedSetController
 	end
 
 	def self.zrank(key,value)
-		score = $data[key].collect{|val| val[1]}.find_index(value)
+		score = $data[key].collect{|val| val[1]}.find_index(format_value(value))
 		score ? score : Status.new(202)
 	end
 

@@ -2,7 +2,7 @@ Dir["/home/nakulwarrier/workspace/ruby/ruby_redis/lib/application/controllers/*.
 require_relative '../model/db_model'
 
 class Listener
-
+  private
   def self.route_control(command_type,command,args)
     case command_type
     when "string"
@@ -84,11 +84,14 @@ class Listener
     case command
     when "save"
       DB_Model.db_save
-      Status.new(200)
+      Status.new(600)
     when "ttl"
       FunctionalityController.ttl(*args)
     when "persist"
       FunctionalityController.persist(*args)
+    when "quit"
+      DB_Model.db_save
+      Status.new(999)
     else
       Status.new(404)
     end

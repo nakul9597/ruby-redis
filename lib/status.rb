@@ -13,7 +13,9 @@ class Status
       402 => "(error) ERR syntax error",
       404 => "CommandError: '#{command}' is not a valid command",
       420 => "(error) ERR value is not an integer or out of range",
-      500 => "(error) ERR bitvalue must be 0/1"
+      500 => "(error) ERR bitvalue must be 0/1",
+      600 => "Data saved to disk",
+      999 => "bye-bye"
     }
   end
 

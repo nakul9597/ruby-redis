@@ -4,17 +4,18 @@ require_relative '../status'
 require 'socket'
 
 class MyRack
-
+  private
   def self.start
     server = TCPServer.open(3000)
     loop do
       @socket = server.accept
-      @socket.puts("\nWelcome to exo-redis\nType a command to start\n")
+      @socket.puts("\nWelcome to exo-redis\nData loaded for disk..\nType a command to start\n\n")
       loop do
+        @socket.write("C: ")
         env = self.request_process
-        (@socket.close; break) if self.socket_close?(env)
         self.response(env);
         display_response(env["command"])
+        (@socket.close; break) if self.socket_close?(env)
       end
     end
 
@@ -41,6 +42,7 @@ class MyRack
   end
 
   def self.display_response(command)
+    @socket.write("S: ")
     case @response_val.class.to_s
     when "Status"
       @socket.puts(Status.code_value(command)[@response_val.code])

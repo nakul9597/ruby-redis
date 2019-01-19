@@ -1,6 +1,7 @@
-require_relative '../../framework/model_framework'
+require_relative '../../framework/model'
 
 class DB_Model
+	private
   def self.db_save
     Database.write
   end

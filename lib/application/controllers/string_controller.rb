@@ -2,7 +2,7 @@ require_relative 'functionality_controller'
 require_relative '../../status'
 
 class StringController
-
+	private
 	def self.set(key,value,*args)
 		FunctionalityController.persist(key) if !!$ttl_thread[key]
 		option = args[0]

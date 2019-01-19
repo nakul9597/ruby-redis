@@ -1,7 +1,7 @@
-require_relative 'error_controller'
+require_relative '../../framework/error_framework'
 
 class SortedSetErrorController
-
+	private
 	def self.zadd(args)
 		RedisError.argument_check(args,2)
 	end
