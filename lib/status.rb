@@ -8,6 +8,7 @@ class Status
       200 => "Ok",
       202 => "(nil)",
       204 => "(empty sorted set)",
+      210 => "(error) ERR wrong key type for command",
       400 => "(error) ERR wrong number of arguments for '#{command}' command",
       402 => "(error) ERR syntax error",
       404 => "CommandError: '#{command}' is not a valid command",

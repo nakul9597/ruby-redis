@@ -10,7 +10,12 @@ class SortedSetController
 				$data[key].push([score,value])
 				return 1
 			else
-				$data[key].insert(index_at,[score,value])
+				value = format_value(value)
+				if !$data[key].collect{|val| val[1]}.include?(value)
+					$data[key].insert(index_at,[score,value])
+				else
+					return 0
+				end
 				return 1
 			end
 		end
@@ -34,10 +39,16 @@ class SortedSetController
 		index_count = 1
 		return Status.new(204) if !$data[key][min.to_i..max.to_i]
 		$data[key][min.to_i..max.to_i]. each do |node|
-			temp.push("#{index_count}) #{node[1]}")
-			(temp.push("#{index_count}) #{node[0]}");index_count+=1) if score == "withscore"
+			temp.push("#{index_count}) \"#{node[1]}\"")
+			(temp.push("#{index_count}) \"#{node[0]}\"");index_count+=1) if score == "withscore"
 			index_count += 1
 		end
+		return temp
+	end
+
+	def self.format_value(value)
+		return value[1..-2] if !!value.match(/\A\"(.)+\"\z/)
+		value
 	end
 
 end

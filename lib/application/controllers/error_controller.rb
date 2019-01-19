@@ -19,10 +19,20 @@ class RedisError
 	end
 
 	def self.string_data_check(key)
-		$data[key] ? Status.new(200) : Status.new(202)
+		if $data[key]
+			return Status.new(200) if $data[key].class == String
+			return Status.new(210)
+		else
+			return Status.new(202)
+		end
 	end
 
 	def self.sorted_set_data_check(key)
-		$data[key] ? Status.new(200) : Status.new(204)
+		if $data[key]
+			return Status.new(200) if $data[key].class == Array
+			return Status.new(210)
+		else
+			return Status.new(204)
+		end
 	end
 end

@@ -84,7 +84,7 @@ class Listener
     case command
     when "save"
       DB_Model.db_save
-      ["wabalaba",444]
+      Status.new(200)
     when "ttl"
       FunctionalityController.ttl(*args)
     when "persist"

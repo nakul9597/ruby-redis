@@ -11,7 +11,7 @@ class FunctionalityController
 			$data.delete(key)
 			$ttl_thread[key].terminate
 		}
-		return (true)
+		return Status.new(200)
 	end
 
 	def self.ttl(key)
@@ -23,8 +23,8 @@ class FunctionalityController
 		if $ttl_thread[key] 
 			$ttl_thread[key][:output] = -1
 			$ttl_thread[key].terminate
-			return true
+			return Status.new(200)
 		end
-		false
+		return Status.new(202)
 	end
 end

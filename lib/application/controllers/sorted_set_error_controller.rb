@@ -19,7 +19,7 @@ class SortedSetErrorController
 
 	def self.zrank(args)
 		status = RedisError.argument_check(args,1)
-		status = RedisError.string_data_check(args[0]) if status.code == 200
+		status = RedisError.sorted_set_data_check(args[0]) if status.code == 200
 		status
 	end
 

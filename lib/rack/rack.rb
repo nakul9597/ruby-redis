@@ -9,6 +9,7 @@ class MyRack
     server = TCPServer.open(3000)
     loop do
       @socket = server.accept
+      @socket.puts("\nWelcome to exo-redis\nType a command to start\n")
       loop do
         env = self.request_process
         (@socket.close; break) if self.socket_close?(env)
@@ -44,11 +45,12 @@ class MyRack
     when "Status"
       @socket.puts(Status.code_value(command)[@response_val.code])
     when "Integer"
-      @socket.puts("(integer)"+@response_val.to_s)
+      @socket.puts("(integer) "+@response_val.to_s)
+    when "String"
+      @socket.puts("\"#{@response_val}\"")
     else
       @socket.puts(@response_val)
     end
-    @socket.puts($data)
   end
 
   def self.socket_close?(response)
