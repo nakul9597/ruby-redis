@@ -6,7 +6,7 @@ require 'socket'
 class MyRack
   
   def self.start
-    server = TCPServer.open(3000)
+    server = TCPServer.open(15000)
     loop do
       @socket = server.accept
       @socket.puts("\nWelcome to exo-redis\nData loaded for disk..\nType a command to start\n\n")
