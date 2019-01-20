@@ -9,6 +9,7 @@ require_relative '../model/db_model'
 class RouterController
   
   def route_control(command_type,command,args)
+    args = format_args(args) if !!args
     case command_type
     when "string"
       string_route(command, args)
@@ -106,6 +107,14 @@ class RouterController
     else
       Status.new(404)
     end
+  end
+
+  def format_args(args)
+    args.each_with_index do |arg,idx|
+      args[idx] = (arg[1..-2]) if !!arg.match(/\A\"(.)+\"\z/)
+      args[idx] = (arg[1..-2]) if !!arg.match(/\A\'(.)+\'\z/)
+    end
+    args
   end
 
 end

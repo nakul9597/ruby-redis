@@ -10,7 +10,6 @@ class SortedSetModel
         $data[key].push([score,value])
         return 1
       else
-        value = format_value(value)
         if !$data[key].collect{|val| val[1]}.include?(value)
           $data[key].insert(index_at,[score,value])
         else
@@ -26,7 +25,7 @@ class SortedSetModel
   end
 
   def zrank(key,value)
-    score = $data[key].collect{|val| val[1]}.find_index(format_value(value))
+    score = $data[key].collect{|val| val[1]}.find_index(value)
     score ? score : Status.new(202)
   end
 
@@ -44,12 +43,6 @@ class SortedSetModel
       index_count += 1
     end
     return temp
-  end
-
-  private
-  def format_value(value)
-    return value[1..-2] if !!value.match(/\A\"(.)+\"\z/)
-    value
   end
 
 end

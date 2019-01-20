@@ -25,4 +25,5 @@ begin
 	RedisRuby.server_start
 rescue Exception => e
 	print e
+  exit
 end

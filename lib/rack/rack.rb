@@ -22,7 +22,7 @@ class Rack
             display_response(env["command"])
             (@socket.close; break) if socket_close?(env)
           rescue StandardError => e
-            print(e)
+            @socket.puts(e)
           end
         end
       rescue SystemExit => e

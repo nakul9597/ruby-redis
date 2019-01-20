@@ -6,14 +6,9 @@ class StringModel
     GenericCommandsModel.persist(key) if !!$ttl_thread[key]
 
     option = args[0]
+    return(set_options(option,args,key,value)) if !!option
 
-    (return set_options(option,args,key,value)) if !!option
-
-    begin
-      $data[key] = format_value(value)
-    rescue StandardError => e
-      return e.to_s
-    end
+    $data[key] = value
     return Status.new(200)
   end
 
@@ -48,7 +43,6 @@ class StringModel
   end
 
   def setxx(key,value)
-    p $data.keys.include?(key)
     return Status.new(202) unless $data.keys.include?(key)
     set(key,value)
   end
@@ -59,7 +53,6 @@ class StringModel
 
   private
   def set_options(option,args,key,value)
-    p args
     if(option == "ex")
       if (args[2] == "nx")
         status = self.setnx(key,value)
@@ -85,11 +78,6 @@ class StringModel
     elsif option == "xx"
       return self.setxx(key,value)
     end
-  end
-
-  def format_value(value)
-    return value[1..-2] if !!value.match(/\A\"(.)+\"\z/)
-    value
   end
 
 end
