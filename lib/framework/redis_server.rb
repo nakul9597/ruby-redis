@@ -3,18 +3,25 @@ require_relative '../application/model/db_model'
 require_relative '../application/controllers/listener_controller'
 require_relative '../rack/rack'
 
-module Server
+class Server
 
-  def self.run
+  def initialize
     puts "Starting Exo-Redis..\nLoading data from disk...\nWaiting for clients.."
-    trap("INT") 
-    {
-      puts "\n\nSaving data to disk\nShutting down."
-      DB_Model.db_save
-      exit
-    }
+    handle_ctr_c
+  end
+
+  def load_data
     DB_Model.get_db_data
-    Rack.start
+  end
+
+  def run
+    rack = Rack.new
+    rack.start
+  end
+
+  private
+  def handle_ctr_c
+    trap("INT") {puts "\n\nSaving data to disk\nShutting down.";DB_Model.db_save;exit}
   end
 
 end

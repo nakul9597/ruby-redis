@@ -1,11 +1,11 @@
-require_relative 'string_controller'
+require_relative '../model/string_model'
 require_relative 'string_error_controller'
-require_relative 'sorted_set_controller'
+require_relative '../model/sorted_set_model'
 require_relative 'sorted_set_error_controller'
 require_relative 'functionality_controller'
 require_relative '../model/db_model'
 
-class Listener
+module Listener
   
   def self.route_control(command_type,command,args)
     case command_type
@@ -19,66 +19,68 @@ class Listener
   end
 
   def self.string_route(command,args)
+    stringdata = StringModel.new
     case command
     when "set"
       status = StringErrorController.set(args)
       return status if status.code != 200
-      StringController.set(*args)
+      stringdata.set(*args)
     when "get"
       status = StringErrorController.get(args)
       return status if status.code != 200
-      StringController.get(*args)
+      stringdata.get(*args)
     when "setbit"
       status = StringErrorController.setbit(args)
       return status if status.code != 200
-      StringController.setbit(*args)
+      stringdata.setbit(*args)
     when "getbit"
       status = StringErrorController.getbit(args)
       return status if status.code != 200
-      StringController.getbit(*args)
+      stringdata.getbit(*args)
     when "setex"
       status = StringErrorController.set_ttl(args)
       return status if status.code != 200
-      StringController.setex(*args)
+      stringdata.setex(*args)
     when "setmx"
       status = StringErrorController.set_ttl(args)
       return status if status.code != 200
-      StringController.setmx(*args)
+      stringdata.setmx(*args)
     when "setnx"
       status = StringErrorController.set(args)
       return status if status.code != 200
-      StringController.setnx(*args)
+      stringdata.setnx(*args)
     when "setxx"
       status = StringErrorController.set(args)
       return status if status.code != 200
-      StringController.setxx(*args)
+      stringdata.setxx(*args)
     else
       Status.new(404)
     end
   end
 
   def self.sortedset_route(command,args)
+    sortedsetdata = SortedSetModel.new
     case command
     when "zadd"
       status = SortedSetErrorController.zadd(args)
       return status if status.code != 200
-      SortedSetController.zadd(*args)
+      sortedsetdata.zadd(*args)
     when "zcard"
       status = SortedSetErrorController.zcard(args)
       return status if status.code != 200
-      SortedSetController.zcard(*args)
+      sortedsetdata.zcard(*args)
     when "zcount"
       status = SortedSetErrorController.zcount(args)
       return status if status.code != 200
-      SortedSetController.zcount(*args)
+      sortedsetdata.zcount(*args)
     when "zrange"
       status = SortedSetErrorController.zrange(args)
       return status if status.code != 200
-      SortedSetController.zrange(*args)
+      sortedsetdata.zrange(*args)
     when "zrank"
       status = SortedSetErrorController.zrank(args)
       return status if status.code != 200
-      SortedSetController.zrank(*args)
+      sortedsetdata.zrank(*args)
     else
       Status.new(404)
     end

@@ -1,6 +1,6 @@
-class SortedSetController
+class SortedSetModel
 
-  def self.zadd(key,score,value)
+  def zadd(key,score,value)
     if $data[key] == nil
       $data[key] = [[score,value]]
       return 1
@@ -21,20 +21,20 @@ class SortedSetController
     end
   end
 
-  def self.zcard(key)
+  def zcard(key)
     $data[key] ? $data[key].size : 0
   end
 
-  def self.zrank(key,value)
+  def zrank(key,value)
     score = $data[key].collect{|val| val[1]}.find_index(format_value(value))
     score ? score : Status.new(202)
   end
 
-  def self.zcount(key,min,max)
+  def zcount(key,min,max)
     $data[key] ? (count_val = $data[key].collect{|val| val[0]}.count &(min..max).to_a.method(:include?)) : 0
   end
 
-  def self.zrange(key,min,max,score = nil)
+  def zrange(key,min,max,score = nil)
     temp = []
     index_count = 1
     return Status.new(204) if !$data[key][min.to_i..max.to_i]
@@ -46,7 +46,8 @@ class SortedSetController
     return temp
   end
 
-  def self.format_value(value)
+  private
+  def format_value(value)
     return value[1..-2] if !!value.match(/\A\"(.)+\"\z/)
     value
   end
