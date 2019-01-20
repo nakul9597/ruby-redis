@@ -1,6 +1,4 @@
-require_relative '../application/controllers/listener_controller'
-
-class Router
+module RouterFramework
 
   def self.find(env)
     return "string" if !!env['command'].match(/\A[sg]et(.)*/)

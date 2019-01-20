@@ -1,5 +1,5 @@
 require_relative '../framework/router_framework'
-require_relative '../application/controllers/listener_controller'
+require_relative '../application/controllers/router_controller'
 require_relative '../status'
 require 'socket'
 
@@ -41,8 +41,8 @@ class Rack
   end
 
   def response(env)
-    command_type = Router.find(env)
-    @response_val = Listener.route_control(command_type,env["command"],env["args"])
+    command_type = RouterFramework.find(env)
+    @response_val = RouterController.new.route_control(command_type,env["command"],env["args"])
   end
 
   def display_response(command)
