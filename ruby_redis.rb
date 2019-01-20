@@ -1,4 +1,4 @@
-require_relative 'lib/framework/redis_runner'
+require_relative 'lib/framework/redis_server'
 require 'yaml'
 
 module RedisRuby
@@ -12,11 +12,17 @@ module RedisRuby
   end
 
   def self.server_start
-    Server.run
+    server = Server.new
+    server.load_data
+    server.run
   end
 
 end
 
-$source = RedisRuby.get_source
-$file = RedisRuby.get_data_filename
-RedisRuby.server_start
+begin
+	$source = RedisRuby.get_source
+	$file = RedisRuby.get_data_filename
+	RedisRuby.server_start
+rescue Exception => e
+	print e
+end

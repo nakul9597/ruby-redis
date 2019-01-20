@@ -5,23 +5,26 @@ require 'socket'
 
 class Rack
 
-  def self.start
-    server = TCPServer.open(15000)
+  def initialize
+    @server = TCPServer.open(15000)
+  end
+
+  def start
     loop do
-      @socket = server.accept
+      @socket = @server.accept
       @socket.puts("\nWelcome to exo-redis\nData loaded for disk..\nType a command to start\n\n")
       loop do
         @socket.write("C: ")
-        env = self.request_process
-        self.response(env);
+        env = request_process
+        response(env);
         display_response(env["command"])
-        (@socket.close; break) if self.socket_close?(env)
+        (@socket.close; break) if socket_close?(env)
       end
     end
-
   end
 
-  def self.request_process
+  private
+  def request_process
 
     if request = @socket.gets
       command,args = request.split(" ",2).map(&:strip)
@@ -30,19 +33,19 @@ class Rack
 
   end
 
-  def self.new_env_render(command,args)
+  def new_env_render(command,args)
     {
       "command" => command.downcase,
       "args" => args.split(" ").map(&:strip)
     }
   end
 
-  def self.response(env)
+  def response(env)
     command_type = Router.find(env)
     @response_val = Listener.route_control(command_type,env["command"],env["args"])
   end
 
-  def self.display_response(command)
+  def display_response(command)
     case @response_val.class.to_s
     when "Status"
       @socket.puts(Status.code_value(command)[@response_val.code])
@@ -55,7 +58,7 @@ class Rack
     end
   end
 
-  def self.socket_close?(response)
+  def socket_close?(response)
     response["command"] == "quit"
   end
 
