@@ -14,11 +14,15 @@ class Rack
       @socket = @server.accept
       @socket.puts("\nWelcome to exo-redis\nData loaded for disk..\nType a command to start\n\n")
       loop do
-        @socket.write("C: ")
-        env = request_process
-        response(env);
-        display_response(env["command"])
-        (@socket.close; break) if socket_close?(env)
+        begin
+          @socket.write("C: ")
+          env = request_process
+          response(env);
+          display_response(env["command"])
+          (@socket.close; break) if socket_close?(env)
+        rescue StandardException => e
+          print(e)
+        end
       end
     end
   end
