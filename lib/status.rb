@@ -18,7 +18,7 @@ class Status
       420 => "(error) ERR value is not an integer or out of range",
       500 => "(error) ERR bitvalue must be 0/1",
       600 => "Data saved to disk",
-      999 => "bye-bye"
+      999 => "Saved data to disk\nbye-bye"
     }
   end
 

@@ -11,18 +11,24 @@ class Rack
 
   def start
     loop do
-      @socket = @server.accept
-      @socket.puts("\nWelcome to exo-redis\nData loaded for disk..\nType a command to start\n\n")
-      loop do
-        begin
-          @socket.write("C: ")
-          env = request_process
-          response(env);
-          display_response(env["command"])
-          (@socket.close; break) if socket_close?(env)
-        rescue StandardException => e
-          print(e)
+      begin
+        @socket = @server.accept
+        @socket.puts("\nWelcome to exo-redis\nData loaded for disk..\nType a command to start\n\n")
+        loop do
+          begin
+            @socket.write("C: ")
+            env = request_process
+            response(env);
+            display_response(env["command"])
+            (@socket.close; break) if socket_close?(env)
+          rescue StandardError => e
+            print(e)
+          end
         end
+      rescue SystemExit => e
+        @socket.puts("Saved data to disk")
+        @socket.close
+        exit
       end
     end
   end
