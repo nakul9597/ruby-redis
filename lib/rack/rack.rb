@@ -26,7 +26,7 @@ class Rack
           end
         end
       rescue SystemExit => e
-        @socket.puts("Saved data to disk")
+        @socket.puts("\nSaved data to disk\nClosing connection")
         @socket.close
         exit
       end

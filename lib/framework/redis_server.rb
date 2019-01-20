@@ -19,7 +19,7 @@ class Server
 
   private
   def handle_ctr_c
-    trap("INT") {puts "\n\nSaving data to disk\nShutting down.";DB_Model.db_save;exit}
+    trap("SIGINT") {puts "\n\nSaving data to disk\nShutting down.";DB_Model.db_save;exit}
   end
 
 end
