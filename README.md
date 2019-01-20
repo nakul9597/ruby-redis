@@ -18,8 +18,8 @@ This is a redis prototype written in ruby.
 		
     $ ruby ruby_redis.rb file_name
 
-    Example : $ruby ruby_redis.rb redis_data 
-    This is load redis_data.json to the server.
+  Example : ```$ruby ruby_redis.rb redis_data``` 
+  This is load redis_data.json to the server.
 
   2. Telnet is the client and can be accessed using command following command on a terminal.
 
