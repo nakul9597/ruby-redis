@@ -8,7 +8,7 @@ class RedisError
   end
 
   def self.integer_check(*values)
-    values.each {|value| return Status.new(420) if !value.match(/\A\d+\z/) }
+    values.each {|value| return Status.new(420) if !value.match(/\A[+-]?\d+\z/) }
     return Status.new(200)
   end
 
