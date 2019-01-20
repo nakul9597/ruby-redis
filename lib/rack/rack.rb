@@ -1,9 +1,9 @@
 require_relative '../framework/router_framework'
-require_relative '../framework/app_runner'
+require_relative '../application/controllers/listener_controller'
 require_relative '../status'
 require 'socket'
 
-class MyRack
+class Rack
   
   def self.start
     server = TCPServer.open(15000)
@@ -38,11 +38,11 @@ class MyRack
   end
 
   def self.response(env)
-    @response_val = App.call(env)
+    command_type = Router.find(env)
+    @response_val = Listener.route_control(command_type,env["command"],env["args"])
   end
 
   def self.display_response(command)
-    @socket.write("S: ")
     case @response_val.class.to_s
     when "Status"
       @socket.puts(Status.code_value(command)[@response_val.code])

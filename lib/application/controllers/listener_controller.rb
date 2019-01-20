@@ -1,4 +1,8 @@
-Dir["/home/nakulwarrier/workspace/ruby/ruby_redis/lib/application/controllers/*.rb"].each {|file| require_relative file }
+require_relative 'string_controller'
+require_relative 'string_error_controller'
+require_relative 'sorted_set_controller'
+require_relative 'sorted_set_error_controller'
+require_relative 'functionality_controller'
 require_relative '../model/db_model'
 
 class Listener

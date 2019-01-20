@@ -3,7 +3,8 @@
 This is a redis prototype written in ruby.
 
 Steps to follow before complilation:
-	1. Add the .json file DB file to the resource folder.
+
+	1. Add the .json DB file to the resource folder.
 
 	2. Run the update_config.rb file. This is only for first time after that this file can be deleted. This step is done to update the source directory of this folder onto the config.yml file.
 		$ ruby update_config.rb
@@ -22,6 +23,7 @@ Compilation/Running instructions :
 		$ telnet 127.0.0.1 15000
 
 Commands recap:
+
 	$ ruby update_config.rb
 	$ ruby ruby_redis.rb file_name #on one terminal
 	$ telnet 127.0.0.1 15000 #on another terminal
