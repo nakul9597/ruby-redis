@@ -1,4 +1,4 @@
-# ruby-redis
+# Ruby-Redis
 
 This is a redis prototype written in ruby.
 
@@ -26,7 +26,9 @@ Compilation/Running instructions :
     $ telnet 127.0.0.1 15000
 
 Commands recap:
-
-  $ ruby update_config.rb
-  $ ruby ruby_redis.rb file_name #on one terminal
-  $ telnet 127.0.0.1 15000 #on another terminal
+  
+  These are all the command:
+  
+    $ ruby update_config.rb
+    $ ruby ruby_redis.rb file_name #on one terminal
+    $ telnet 127.0.0.1 15000 #on another terminal
