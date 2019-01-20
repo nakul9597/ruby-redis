@@ -1,6 +1,5 @@
 require_relative 'router_framework'
 require_relative '../application/model/db_model'
-require_relative '../application/controllers/listener_controller'
 require_relative '../rack/rack'
 
 class Server
@@ -15,8 +14,7 @@ class Server
   end
 
   def run
-    rack = Rack.new
-    rack.start
+    Rack.new.start
   end
 
   private

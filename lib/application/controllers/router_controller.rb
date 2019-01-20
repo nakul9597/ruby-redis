@@ -6,20 +6,21 @@ require_relative '../model/generic_commands_model'
 require_relative 'generic_commands_error_controller'
 require_relative '../model/db_model'
 
-module Listener
+class RouterController
   
-  def self.route_control(command_type,command,args)
+  def route_control(command_type,command,args)
     case command_type
     when "string"
-      self.string_route(command, args)
+      string_route(command, args)
     when "sorted_set"
-      self.sortedset_route(command, args)
+      sortedset_route(command, args)
     else 
-      self.funtionality_route(command, args)
+      funtionality_route(command, args)
     end
   end
-
-  def self.string_route(command,args)
+  
+  private
+  def string_route(command,args)
     stringdata = StringModel.new
     case command
     when "set"
@@ -59,7 +60,7 @@ module Listener
     end
   end
 
-  def self.sortedset_route(command,args)
+  def sortedset_route(command,args)
     sortedsetdata = SortedSetModel.new
     case command
     when "zadd"
@@ -87,7 +88,7 @@ module Listener
     end
   end
 
-  def self.funtionality_route(command,args)
+  def funtionality_route(command,args)
     case command
     when "save"
       DB_Model.db_save
