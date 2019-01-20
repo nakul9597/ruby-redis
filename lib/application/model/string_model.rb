@@ -1,9 +1,9 @@
-require_relative '../controllers/functionality_controller'
+require_relative 'generic_commands_model'
 
 class StringModel
 
   def set(key,value,*args)
-    FunctionalityController.persist(key) if !!$ttl_thread[key]
+    GenericCommandsModel.persist(key) if !!$ttl_thread[key]
 
     option = args[0]
 
@@ -23,12 +23,12 @@ class StringModel
 
   def setex(key,expiretime,value)
     set(key,value)
-    FunctionalityController.expire(key,expiretime.to_i,"ex")
+    GenericCommandsModel.expire(key,expiretime.to_i,"ex")
   end
 
   def setmx(key,expiretime,value)
     set(key,value)
-    FunctionalityController.expire(key,expiretime.to_i,"mx")
+    GenericCommandsModel.expire(key,expiretime.to_i,"mx")
   end
 
   def setbit(key,offset,bitvalue)
@@ -68,7 +68,7 @@ class StringModel
       else
         status = self.set(key,value)
       end
-      return FunctionalityController.expire(key,args[1].to_i,"ex") if status.code == 200
+      return GenericCommandsModel.expire(key,args[1].to_i,"ex") if status.code == 200
       return status
     elsif(option == "mx")
       if (args[2] == "nx")
@@ -78,7 +78,7 @@ class StringModel
       else
         status = self.set(key,value)
       end
-      return FunctionalityController.expire(key,args[1].to_i,"mx") if status.code == 200
+      return GenericCommandsModel.expire(key,args[1].to_i,"mx") if status.code == 200
       return status
     elsif option == "nx"
       return self.setnx(key,value)

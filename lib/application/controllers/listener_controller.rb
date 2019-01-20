@@ -2,7 +2,8 @@ require_relative '../model/string_model'
 require_relative 'string_error_controller'
 require_relative '../model/sorted_set_model'
 require_relative 'sorted_set_error_controller'
-require_relative 'functionality_controller'
+require_relative '../model/generic_commands_model'
+require_relative 'generic_commands_error_controller'
 require_relative '../model/db_model'
 
 module Listener
@@ -92,9 +93,13 @@ module Listener
       DB_Model.db_save
       Status.new(600)
     when "ttl"
-      FunctionalityController.ttl(*args)
+      status = GenericCommandsErrorController.ttl(args)
+      return status if status.code != 200
+      GenericCommandsModel.ttl(*args)
     when "persist"
-      FunctionalityController.persist(*args)
+      status = GenericCommandsErrorController.persist(args)
+      return status if status.code != 200
+      GenericCommandsModel.persist(*args)
     when "quit"
       DB_Model.db_save
       Status.new(999)

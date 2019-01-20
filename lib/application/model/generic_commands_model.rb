@@ -1,4 +1,4 @@
-class FunctionalityController
+class GenericCommandsModel
 
   def self.expire(key,expire_value,expire_time)
     $ttl_thread[key] = Thread.new{
@@ -20,7 +20,8 @@ class FunctionalityController
   end
 
   def self.persist(key)
-		if $ttl_thread[key] 
+		if $ttl_thread[key]
+      return Status.new(202) if $ttl_thread[key][:output] == -1
       $ttl_thread[key][:output] = -1
       $ttl_thread[key].terminate
       return Status.new(200)
