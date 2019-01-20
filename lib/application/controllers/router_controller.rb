@@ -92,7 +92,6 @@ class RouterController
     case command
     when "save"
       DB_Model.db_save
-      Status.new(600)
     when "ttl"
       status = GenericCommandsErrorController.ttl(args)
       return status if status.code != 200
