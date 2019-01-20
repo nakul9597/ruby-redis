@@ -4,7 +4,7 @@ require_relative '../status'
 require 'socket'
 
 class Rack
-  
+
   def self.start
     server = TCPServer.open(15000)
     loop do

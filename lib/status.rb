@@ -1,9 +1,9 @@
 class Status
-	attr_accessor :code
-	def initialize(code=nil	)
-		@code = code
-	end
-	def self.code_value(command)
+  attr_accessor :code
+  def initialize(code=nil	)
+    @code = code
+  end
+  def self.code_value(command)
     {
       200 => "Ok",
       202 => "(nil)",

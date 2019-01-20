@@ -4,7 +4,7 @@ require_relative '../application/controllers/listener_controller'
 require_relative '../rack/rack'
 
 module Server
-	
+
   def self.run
     puts "Starting Exo-Redis..\nLoading data from disk...\nWaiting for clients.."
     trap("INT") 

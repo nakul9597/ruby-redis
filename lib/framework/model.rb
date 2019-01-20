@@ -1,7 +1,7 @@
 require 'json'
 
 class Database
-	
+
   def self.read
     file = File.read("#{$source}/resource/#{$file}.json")
     $data = JSON.parse(file)
