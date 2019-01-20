@@ -11,8 +11,8 @@ class Rack
 
   def start
     loop do
+      @socket = @server.accept
       begin
-        @socket = @server.accept
         @socket.puts("\nWelcome to exo-redis\nData loaded for disk..\nType a command to start\n\n")
         loop do
           begin
