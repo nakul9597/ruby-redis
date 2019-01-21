@@ -1,4 +1,4 @@
-module GenericCommandsModel
+class GenericCommandsModel
 
   def self.expire(key,expire_value,expire_time)
     $ttl_thread[key] = Thread.new{
