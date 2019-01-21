@@ -1,6 +1,6 @@
 require_relative '../../framework/error_framework'
 
-class StringErrorController
+module StringErrorController
 
   def self.set(args)
     status = ErrorFramework.argument_check(args,1,4)

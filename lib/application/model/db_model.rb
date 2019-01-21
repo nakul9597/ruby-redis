@@ -1,6 +1,6 @@
 require_relative '../../framework/model'
 
-class DB_Model
+module DB_Model
 
   def self.db_save
     Database.write

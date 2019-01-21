@@ -1,6 +1,6 @@
 require_relative '../../framework/error_framework'
 
-class GenericCommandsErrorController
+module GenericCommandsErrorController
   
   def self.ttl(args)
     ErrorFramework.argument_check(args,0)
