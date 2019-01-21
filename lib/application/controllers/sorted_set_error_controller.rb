@@ -1,6 +1,6 @@
 require_relative '../../framework/error_framework'
 
-module SortedSetErrorController
+class SortedSetErrorController
   
   def self.zadd(args)
     ErrorFramework.argument_check(args,2)
