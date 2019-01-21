@@ -1,7 +1,7 @@
 require_relative 'lib/framework/redis_server'
 require 'yaml'
 
-module RedisRuby
+class RedisRuby
 
   def self.get_source
     YAML.load(File.read("config.yml"))["source_dir"]
