@@ -1,4 +1,4 @@
-module RouterFramework
+class RouterFramework
 
   def self.find(env)
     return "string" if !!env['command'].match(/\A[sg]et(.)*/)
