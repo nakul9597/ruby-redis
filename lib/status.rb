@@ -6,9 +6,9 @@ class Status
     @code = code
   end
   
-  def self.code_value(command)
+  def self.code_value(first_byte,command)
     {
-      200 => "Ok",
+      200 => "+ok\r\n",
       202 => "(nil)",
       204 => "(empty sorted set)",
       210 => "(error) ERR wrong key type for command",
@@ -18,7 +18,7 @@ class Status
       420 => "(error) ERR value is not an integer or out of range",
       500 => "(error) ERR bitvalue must be 0/1",
       600 => "Data saved to disk",
-      999 => "Saved data to disk\nbye-bye"
+      999 => "#{first_byte}0\r\n"
     }
   end
 

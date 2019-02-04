@@ -6,19 +6,17 @@ require 'socket'
 class Rack
 
   def initialize
-    @server = TCPServer.open(15000)
+    @server = TCPServer.open(16000)
   end
 
   def start
     loop do
       @socket = @server.accept
       begin
-        @socket.puts("\nWelcome to exo-redis\nData loaded for disk..\nType a command to start\n\n")
         loop do
           begin
-            @socket.write("C: ")
             env = request_process
-            response(env);
+            response(env)
             display_response(env["command"])
             (@socket.close; break) if socket_close?(env)
           rescue StandardError => e
@@ -26,7 +24,6 @@ class Rack
           end
         end
       rescue SystemExit => e
-        @socket.puts("\nSaved data to disk\nClosing connection")
         @socket.close
         exit
       end
@@ -35,18 +32,23 @@ class Rack
 
   private
   def request_process
-
-    if request = @socket.gets
-      command,args = request.split(" ",2).map(&:strip)
-      new_env_render(command,args)
+    final_request = []
+    request = @socket.gets()
+    @request_type, number_of_requests = request_helper(request)
+    number_of_requests.to_i.times do
+      request = @socket.gets()
+      request_type, request_length = request_helper(request)
+      request = @socket.gets()
+      final_request << request[0...request_length.to_i]
     end
-
+    print final_request 
+    new_env_render(final_request[0],final_request[1..-1])
   end
 
   def new_env_render(command,args)
     {
       "command" => command.downcase,
-      "args" => args.split(" ").map(&:strip)
+      "args" => args
     }
   end
 
@@ -58,14 +60,20 @@ class Rack
   def display_response(command)
     case @response_val.class.to_s
     when "Status"
-      @socket.puts(Status.code_value(command)[@response_val.code])
+      @socket.puts(Status.code_value(@request_type,command)[@response_val.code])
     when "Integer"
-      @socket.puts("(integer) "+@response_val.to_s)
+      @socket.puts(":#{@response_val}\r\n")
     when "String"
-      @socket.puts("\"#{@response_val}\"")
+      @socket.puts("$#{@response_val.size}\r\n#{@response_val}\r\n")
     else
-      @socket.puts(@response_val)
+      p "*2\r\n#{@response_val[0].size}\r\n#{@response_val[0]}\r\n#{@response_val[1].size}\r\n#{@response_val[1]}\r\n"
+      @socket.puts("*2\r\n$#{@response_val[0].size}\r\n#{@response_val[0]}\r\n$#{@response_val[1].size}\r\n#{@response_val[1]}\r\n")
     end
+  end
+
+  def request_helper(request)
+    request = request.strip
+    return([request[0],request[1..-1]])
   end
 
   def socket_close?(response)

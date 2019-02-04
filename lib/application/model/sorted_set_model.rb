@@ -38,8 +38,8 @@ class SortedSetModel
     index_count = 1
     return Status.new(204) if !$data[key][min.to_i..max.to_i]
     $data[key][min.to_i..max.to_i]. each do |node|
-      temp.push("#{index_count}) \"#{node[1]}\"")
-      (temp.push("#{index_count}) \"#{node[0]}\"");index_count+=1) if score == "withscore"
+      temp.push("#{index_count}) #{node[1]}")
+      (temp.push("#{index_count}) #{node[0]}");index_count+=1) if score == "withscore"
       index_count += 1
     end
     return temp

@@ -91,6 +91,8 @@ class RouterController
 
   def funtionality_route(command,args)
     case command
+    when "select"
+      return Status.new(999)
     when "save"
       DB_Model.db_save
     when "ttl"
