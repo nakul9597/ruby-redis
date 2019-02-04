@@ -8,16 +8,9 @@ class Status
   
   def self.code_value(first_byte,command)
     {
-      200 => "+ok\r\n",
-      202 => "(nil)",
-      204 => "(empty sorted set)",
-      210 => "(error) ERR wrong key type for command",
-      400 => "(error) ERR wrong number of arguments for '#{command}' command",
-      402 => "(error) ERR syntax error",
-      404 => "CommandError: '#{command}' is not a valid command",
-      420 => "(error) ERR value is not an integer or out of range",
-      500 => "(error) ERR bitvalue must be 0/1",
-      600 => "Data saved to disk",
+      200 => "+OK\r\n",
+      202 => "$-1\r\n",
+      420 => "-(WRONGTYPE Operation against a key holding the wrong kind of value)\r\n",
       999 => "#{first_byte}0\r\n"
     }
   end

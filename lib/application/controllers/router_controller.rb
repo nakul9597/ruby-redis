@@ -25,8 +25,6 @@ class RouterController
     stringdata = StringModel.new
     case command
     when "set"
-      status = StringErrorController.set(args)
-      return status if status.code != 200
       stringdata.set(*args)
     when "get"
       status = StringErrorController.get(args)
@@ -65,8 +63,6 @@ class RouterController
     sortedsetdata = SortedSetModel.new
     case command
     when "zadd"
-      status = SortedSetErrorController.zadd(args)
-      return status if status.code != 200
       sortedsetdata.zadd(*args)
     when "zcard"
       status = SortedSetErrorController.zcard(args)

@@ -6,7 +6,7 @@ class StringModel
     GenericCommandsModel.persist(key) if !!$ttl_thread[key]
 
     option = args[0]
-    return(set_options(option,args,key,value)) if !!option
+    return(set_options(option.downcase,args,key,value)) if !!option
 
     $data[key] = value
     return Status.new(200)

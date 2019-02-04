@@ -41,7 +41,6 @@ class Rack
       request = @socket.gets()
       final_request << request[0...request_length.to_i]
     end
-    print final_request 
     new_env_render(final_request[0],final_request[1..-1])
   end
 
@@ -66,8 +65,7 @@ class Rack
     when "String"
       @socket.puts("$#{@response_val.size}\r\n#{@response_val}\r\n")
     else
-      p "*2\r\n#{@response_val[0].size}\r\n#{@response_val[0]}\r\n#{@response_val[1].size}\r\n#{@response_val[1]}\r\n"
-      @socket.puts("*2\r\n$#{@response_val[0].size}\r\n#{@response_val[0]}\r\n$#{@response_val[1].size}\r\n#{@response_val[1]}\r\n")
+      @socket.puts(@response_val[0])
     end
   end
 

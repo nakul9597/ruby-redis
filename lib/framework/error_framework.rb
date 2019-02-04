@@ -20,7 +20,7 @@ class ErrorFramework
   def self.string_data_check(key)
     if $data[key]
       return Status.new(200) if $data[key].class == String
-      return Status.new(210)
+      return Status.new(420)
     else
       return Status.new(202)
     end
@@ -29,9 +29,9 @@ class ErrorFramework
   def self.sorted_set_data_check(key)
     if $data[key]
       return Status.new(200) if $data[key].class == Array
-      return Status.new(210)
+      return Status.new(420)
     else
-      return Status.new(204)
+      return Status.new(202)
     end
   end
 end

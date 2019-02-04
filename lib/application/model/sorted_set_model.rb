@@ -25,24 +25,27 @@ class SortedSetModel
   end
 
   def zrank(key,value)
-    score = $data[key].collect{|val| val[1]}.find_index(value)
-    score ? score : Status.new(202)
+    return Status.new(202) if !$data[key]
+    $data[key].collect{|val| val[1]}.find_index(value)
   end
 
   def zcount(key,min,max)
-    $data[key] ? (count_val = $data[key].collect{|val| val[0]}.count &(min..max).to_a.method(:include?)) : 0
+    return 0 if !$data[key]
+    (count_val = $data[key].collect{|val| val[0]}.count &(min..max).to_a.method(:include?))
   end
 
   def zrange(key,min,max,score = nil)
-    temp = []
-    index_count = 1
-    return Status.new(204) if !$data[key][min.to_i..max.to_i]
+    return ["*0\r\n"] if !$data[key]
+    temp = ""
     $data[key][min.to_i..max.to_i]. each do |node|
-      temp.push("#{index_count}) #{node[1]}")
-      (temp.push("#{index_count}) #{node[0]}");index_count+=1) if score == "withscore"
-      index_count += 1
+      temp += "$#{node[1].size}\r\n#{node[1]}\r\n"
+      if score == "WITHSCORES"
+        temp += "$#{node[0].size}\r\n#{node[0]}\r\n"
+      end
     end
-    return temp
+    count_val = temp.scan(/(\r)(\n)/).count
+    temp = "*#{count_val/2}\r\n"+temp
+    return [temp]
   end
 
 end
