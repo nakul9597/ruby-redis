@@ -7,18 +7,18 @@ class Database
       file = File.read("#{$source}/resource/#{$file}.json")
       $data = JSON.parse(file)
     rescue StandardError => e
-      return Status.new(602)
+      return Status.new(1001)
     end
-    return Status.new(600)
+    return Status.new(200)
   end
 
   def self.write
     begin
       File.open("#{$source}/resource/#{$file}.json","w"){ |f| f << $data.to_json }
     rescue StandardError => e
-    	return Status.new(602)
+    	return Status.new(1001)
     end
-    return Status.new(600)
+    return Status.new(200)
   end
 
 end

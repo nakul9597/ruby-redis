@@ -47,15 +47,11 @@ class RouterController
       return status if status.code != 200
       stringdata.setmx(*args)
     when "setnx"
-      status = StringErrorController.set(args)
-      return status if status.code != 200
       stringdata.setnx(*args)
     when "setxx"
-      status = StringErrorController.set(args)
-      return status if status.code != 200
       stringdata.setxx(*args)
     else
-      Status.new(404)
+      Status.new(600)
     end
   end
 
@@ -63,6 +59,8 @@ class RouterController
     sortedsetdata = SortedSetModel.new
     case command
     when "zadd"
+      status = SortedSetErrorController.zadd(args)
+      return status if status.code == 420
       sortedsetdata.zadd(*args)
     when "zcard"
       status = SortedSetErrorController.zcard(args)
@@ -81,7 +79,7 @@ class RouterController
       return status if status.code != 200
       sortedsetdata.zrank(*args)
     else
-      Status.new(404)
+      Status.new(600)
     end
   end
 
@@ -103,7 +101,7 @@ class RouterController
       DB_Model.db_save
       Status.new(999)
     else
-      Status.new(404)
+      Status.new(600)
     end
   end
 

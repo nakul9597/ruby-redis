@@ -40,39 +40,43 @@ class StringModel
   def setnx(key,value)
     return Status.new(202) if $data.keys.include?(key)
     set(key,value)
+    return Status.new(200)
   end
 
   def setxx(key,value)
     return Status.new(202) unless $data.keys.include?(key)
     set(key,value)
+    return Status.new(200)
   end
 
   def getbit(key,offset)
-    $data[key]? $data[key].unpack("B*")[0][offset.to_i].to_i : Status.new(202)
+    $data[key]? $data[key].unpack("B*")[0][offset.to_i].to_i : 0
   end
 
   private
   def set_options(option,args,key,value)
     if(option == "ex")
-      if (args[2] == "nx")
+      if (args[2] == "NX")
         status = self.setnx(key,value)
-      elsif (args[2] == "xx")
+        return status if status.code == 202
+      elsif (args[2] == "XX")
         status = self.setxx(key,value)
+        return status if status.code == 202
       else
         status = self.set(key,value)
       end
-      return GenericCommandsModel.expire(key,args[1].to_i,"ex") if status.code == 200
-      return status
+      return GenericCommandsModel.expire(key,args[1].to_i,"ex")
     elsif(option == "mx")
-      if (args[2] == "nx")
+      if (args[2] == "NX")
         status = self.setnx(key,value)
-      elsif (args[2] == "xx")
+        return status if status.code == 202
+      elsif (args[2] == "XX")
         status = self.setxx(key,value)
+        return status if status.code == 202
       else
         status = self.set(key,value)
       end
-      return GenericCommandsModel.expire(key,args[1].to_i,"mx") if status.code == 200
-      return status
+      return GenericCommandsModel.expire(key,args[1].to_i,"mx")
     elsif option == "nx"
       return self.setnx(key,value)
     elsif option == "xx"

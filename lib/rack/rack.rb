@@ -6,7 +6,7 @@ require 'socket'
 class Rack
 
   def initialize
-    @server = TCPServer.open(16000)
+    @server = TCPServer.open(15000)
   end
 
   def start
@@ -17,7 +17,7 @@ class Rack
           begin
             env = request_process
             response(env)
-            display_response(env["command"])
+            display_response(env)
             (@socket.close; break) if socket_close?(env)
           rescue StandardError => e
             @socket.puts(e)
@@ -56,10 +56,10 @@ class Rack
     @response_val = RouterController.new.route_control(command_type,env["command"],env["args"])
   end
 
-  def display_response(command)
+  def display_response(env)
     case @response_val.class.to_s
     when "Status"
-      @socket.puts(Status.code_value(@request_type,command)[@response_val.code])
+      @socket.puts(Status.code_value(env["command"],env["args"])[@response_val.code])
     when "Integer"
       @socket.puts(":#{@response_val}\r\n")
     when "String"
