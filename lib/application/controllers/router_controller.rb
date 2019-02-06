@@ -42,10 +42,10 @@ class RouterController
       status = StringErrorController.set_ttl(args)
       return status if status.code != 200
       stringdata.setex(*args)
-    when "setmx"
+    when "setpx"
       status = StringErrorController.set_ttl(args)
       return status if status.code != 200
-      stringdata.setmx(*args)
+      stringdata.setpx(*args)
     when "setnx"
       stringdata.setnx(*args)
     when "setxx"

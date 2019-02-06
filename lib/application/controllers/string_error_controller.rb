@@ -21,8 +21,7 @@ class StringErrorController
   end
 
   def self.set_ttl(args)
-    status = ErrorFramework.integer_check(args[1]) if status.code == 200
-    status
+    ErrorFramework.integer_check(args[1])
   end
 
 end

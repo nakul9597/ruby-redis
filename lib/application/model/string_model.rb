@@ -21,7 +21,7 @@ class StringModel
     GenericCommandsModel.expire(key,expiretime.to_i,"ex")
   end
 
-  def setmx(key,expiretime,value)
+  def setpx(key,expiretime,value)
     set(key,value)
     GenericCommandsModel.expire(key,expiretime.to_i,"mx")
   end
@@ -38,15 +38,15 @@ class StringModel
   end
 
   def setnx(key,value)
-    return Status.new(202) if $data.keys.include?(key)
+    return 0 if $data.keys.include?(key)
     set(key,value)
-    return Status.new(200)
+    return 1
   end
 
   def setxx(key,value)
-    return Status.new(202) unless $data.keys.include?(key)
+    return 0 unless $data.keys.include?(key)
     set(key,value)
-    return Status.new(200)
+    return 1
   end
 
   def getbit(key,offset)
@@ -58,29 +58,31 @@ class StringModel
     if(option == "ex")
       if (args[2] == "NX")
         status = self.setnx(key,value)
-        return status if status.code == 202
+        return Status.new(202) if status == 0
       elsif (args[2] == "XX")
         status = self.setxx(key,value)
-        return status if status.code == 202
+        return Status.new(202) if status == 0
       else
         status = self.set(key,value)
       end
       return GenericCommandsModel.expire(key,args[1].to_i,"ex")
-    elsif(option == "mx")
+    elsif(option == "px")
       if (args[2] == "NX")
         status = self.setnx(key,value)
-        return status if status.code == 202
+        return Status.new(202) if status == 0
       elsif (args[2] == "XX")
         status = self.setxx(key,value)
-        return status if status.code == 202
+        return Status.new(202) if status == 0
       else
         status = self.set(key,value)
       end
-      return GenericCommandsModel.expire(key,args[1].to_i,"mx")
+      return GenericCommandsModel.expire(key,args[1].to_i,"px")
     elsif option == "nx"
-      return self.setnx(key,value)
+      status  = self.setnx(key,value)
+      status == 1 ? Status.new(200) : Status.new(202)
     elsif option == "xx"
-      return self.setxx(key,value)
+      status =  self.setxx(key,value)
+      status == 1 ? Status.new(200) : Status.new(202)
     end
   end
 
