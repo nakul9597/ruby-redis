@@ -12,21 +12,21 @@ class Rack
   def start
     loop do
       @socket = @server.accept
-      #begin
+      begin
         loop do
-          #begin
+          begin
             env = request_process
             response(env)
             display_response(env)
             (@socket.close; break) if socket_close?(env)
-          #rescue StandardError => e
-            #@socket.puts(e)
-          #end
+          rescue StandardError => e
+            @socket.puts(e)
+          end
         end
-      #rescue SystemExit => e
-        #@socket.close
-        #exit
-      #end
+      rescue SystemExit => e
+        @socket.close
+        exit
+      end
     end
   end
 
