@@ -19,11 +19,11 @@ class RedisRuby
 
 end
 
-begin
+#begin
 	$source = RedisRuby.get_source
 	$file = RedisRuby.get_data_filename
 	RedisRuby.server_start
-rescue Exception => e
+#rescue Exception => e
 	print e
   exit
-end
+#end
